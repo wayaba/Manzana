@@ -55,11 +55,13 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
+    	return $this->redirect(['socio/index']);
         return $this->render('index');
     }
 
     public function actionLogin()
     {
+    	$this->layout = 'mainlogin';
         if (!\Yii::$app->user->isGuest) {
             return $this->goHome();
         }

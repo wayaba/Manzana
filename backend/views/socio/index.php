@@ -23,6 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Nuevo Socio', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 <?php Pjax::begin(['id'=>'pjax-socios']); ?>    <?= GridView::widget([
+		'summary' => 'Mostrando {begin}-{end} de {totalCount}',
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [

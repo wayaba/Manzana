@@ -47,6 +47,25 @@ AppAsset::register($this);
           <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
             <span class="sr-only">Toggle navigation</span>
           </a>
+              <?php
+              echo Html::beginForm(['/site/logout'], 'post',['class'=>'signout']);
+              ?>
+          <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+              <li>
+                <a href="#" id="sing-out"><i class="fa  fa-sign-out"></i></a>
+                <?php 
+					$this->registerJs("
+						$('#sing-out').click(function(){
+					    	$('form.signout').submit();
+					    });
+					");?>
+              </li>
+            </ul>
+          </div>
+              <?php 
+              echo Html::endForm();
+              ?>
         </nav>
       </header>
       <!-- Left side column. contains the logo and sidebar -->
@@ -99,8 +118,6 @@ AppAsset::register($this);
         </div>
         <strong>Copyright &copy; 2016-2016 <a href="http://domasolutions.com">Domasolutions</a>.</strong> Todos los derechos reservados.
       </footer>
-
-      <div class="control-sidebar-bg"></div>
     </div><!-- ./wrapper -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js"></script>

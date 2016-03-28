@@ -48,7 +48,6 @@ use yii\bootstrap\Html;
 				    <div class="row-fluid">
 	              	<div class="span12">
 	              	<div class="box box-success">
-	              	<div class="box-body">
 					
 					<?php $form = ActiveForm::begin(['action' => ['socio/make-payment'],'id'=>'payment-form']); ?>
 					<?php
@@ -57,12 +56,16 @@ use yii\bootstrap\Html;
 					$configuracion = Configuracion::find()
 					->orderBy('created_at','desc')
 					->one();
-					$pagoModel->valor_cuota = $configuracion->valor_cuota;
-					$pagoModel->monto = $configuracion->valor_cuota;
+					$pagoModel->valor_cuota = $model->plan->valor_cuota;
+					$pagoModel->monto = $model->plan->valor_cuota;
 					$pagoModel->socio_id = $model->id;
 						
 					?>
+	              	<div class="box-header with-border">
+	              		<h3 class="box-title"><?=$model->plan->nombre?></h3>
+	              	</div>
 
+	              	<div class="box-body">
 	
 				    <?= $form->field($pagoModel, 'socio_id')->hiddenInput()->label(false) ?>
 

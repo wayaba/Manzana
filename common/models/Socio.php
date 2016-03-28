@@ -51,9 +51,10 @@ class Socio extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nombre', 'apellido'], 'required'],
-            [['tiene_apto_medico', 'codigo' ,'estado', 'sexo', 'created_at', 'updated_at'], 'integer'],
+            [['nombre', 'apellido','plan_id'], 'required'],
+            [['tiene_apto_medico', 'codigo' ,'estado', 'sexo', 'created_at', 'updated_at','plan_id'], 'integer'],
             [['nombre', 'apellido', 'email', 'facebook_id','telefono','telefono_emergencia'], 'string', 'max' => 100],
+            [['direccion_calle', 'direccion_numero', 'direccion_localidad', 'direccion_provincia','direccion_codigo_postal','direccion_departamento'], 'string', 'max' => 100],        		
             [['dni','fecha_inscripcion','fecha_nacimiento','fecha_vencimiento_apto_medico'], 'string', 'max' => 20],
             [['email'], 'unique'],
         	[['email'], 'email'],
@@ -121,6 +122,13 @@ class Socio extends \yii\db\ActiveRecord
             'estado' => 'Estado',
         	'codigo' => 'Código',
             'facebook_id' => 'Facebook ID',
+        	'direccion_calle' => 'Calle',
+        	'direccion_numero' => 'Número',
+        	'direccion_localidad' => 'Localidad',
+        	'direccion_provincia' => 'Provincia',
+        	'direccion_codigo_postal' => 'Código Postal',
+        	'direccion_departamento'=> 'Departamento',
+        	'plan_id'=>'Plan',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
@@ -134,6 +142,14 @@ class Socio extends \yii\db\ActiveRecord
         return $this->hasMany(Pago::className(), ['socio_id' => 'id']);
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPlan()
+    {
+    	return $this->hasOne(Plan::className(), ['id' => 'plan_id']);
+    }
+    
     /**
      * @inheritdoc
      * @return SocioQuery the active query used by this AR class.

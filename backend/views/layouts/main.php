@@ -114,7 +114,7 @@ AppAsset::register($this);
       </div><!-- /.content-wrapper -->
       <footer class="main-footer">
         <div class="pull-right hidden-xs">
-          <b>Version</b> 2.3.0
+          <b>Version</b> 0.1
         </div>
         <strong>Copyright &copy; 2016-2016 <a href="http://domasolutions.com">Domasolutions</a>.</strong> Todos los derechos reservados.
       </footer>

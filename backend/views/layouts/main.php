@@ -29,7 +29,7 @@ AppAsset::register($this);
     <?php $this->head() ?>
     
 </head>
-<body class="hold-transition skin-blue sidebar-mini">
+<body class="hold-transition skin-blue sidebar-mini  sidebar-collapse">
 <?php $this->beginBody() ?>
     <div class="wrapper">
 

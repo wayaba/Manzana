@@ -69,17 +69,15 @@ class SocioController extends Controller
     {
         $model = new Socio();
         if ($model->load(Yii::$app->request->post())) {
-
-        	$codigo = Socio::find()->max('codigo');
-        	
-        	$model->codigo = ((isset($codigo)?$codigo:1000) + 1);
-        	
         	if($model->save())
         	{
             	return $this->redirect(['index']);
         	}
         } else {
         	
+        	$codigo = Socio::find()->max('codigo');
+        	
+        	$model->codigo = ((isset($codigo)?$codigo:1000) + 1);        	
         	$model->fecha_inscripcion = date ( 'd/m/Y' );
         	$model->fecha_vencimiento_apto_medico = date ( 'd/m/Y' , strtotime('+1 years'));
         	$model->estado = 1;

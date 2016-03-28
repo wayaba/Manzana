@@ -15,10 +15,13 @@ use common\models\PlanSearch;
 
 
 	<div class="row">
-		<div class="col-md-6">
+		<div class="col-md-2">
+	    <?= $form->field($model, 'codigo')->textInput(['maxlength' => true]) ?>
+	    </div>
+		<div class="col-md-5">
 	    <?= $form->field($model, 'nombre')->textInput(['maxlength' => true]) ?>
 	    </div>
-		<div class="col-md-6">
+		<div class="col-md-5">
 	    <?= $form->field($model, 'apellido')->textInput(['maxlength' => true]) ?>
 	    </div>
 	</div>

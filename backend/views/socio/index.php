@@ -14,18 +14,26 @@ use common\models\Pago;
 $this->title = 'Socios';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="socio-index">
+<div class="box">
+<div class="box-header">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h3 class="box-title"><?= Html::encode($this->title) ?></h3>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
+	<div class="box-tools">
     <p>
         <?= Html::a('Nuevo Socio', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-<?php Pjax::begin(['id'=>'pjax-socios']); ?>    <?= GridView::widget([
-		'summary' => 'Mostrando {begin}-{end} de {totalCount}',
+	</div>
+</div>
+<?php Pjax::begin(['id'=>'pjax-socios']); ?>
+
+<div class="box-body table-responsive no-padding" >    
+<?= GridView::widget([
+		//'summary' => 'Mostrando {begin}-{end} de {totalCount}',
+		'summary' => false,
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+		'tableOptions'=>['class'=> 'table table-hover'],
         'columns' => [
             'codigo',
         	'nombre',
@@ -72,7 +80,9 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ],
     ]); ?>
-<?php Pjax::end(); ?></div>
+    </div>
+<?php Pjax::end(); ?>
+</div>
 <div id="modal-place-holder">
 	
 </div>

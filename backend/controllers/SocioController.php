@@ -12,6 +12,7 @@ use yii\helpers\Json;
 use yii\web\JsonResponseFormatter;
 use common\models\Pago;
 use common\models\Configuracion;
+use yii\bootstrap\ActiveForm;
 
 /**
  * SocioController implements the CRUD actions for Socio model.
@@ -68,6 +69,12 @@ class SocioController extends Controller
     public function actionCreate()
     {
         $model = new Socio();
+        
+        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
+        	Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        	return ActiveForm::validate($model);
+        }
+        
         if ($model->load(Yii::$app->request->post())) {
         	if($model->save())
         	{

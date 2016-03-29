@@ -10,7 +10,7 @@ use common\models\PlanSearch;
 /* @var $model common\models\Socio */
 /* @var $form yii\widgets\ActiveForm */
 ?>
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['enableAjaxValidation' => true]); ?>
 <div class="box-body">
 
 

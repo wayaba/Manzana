@@ -56,9 +56,9 @@ class Socio extends \yii\db\ActiveRecord
             [['nombre', 'apellido', 'email', 'facebook_id','telefono','telefono_emergencia'], 'string', 'max' => 100],
             [['direccion_calle', 'direccion_numero', 'direccion_localidad', 'direccion_provincia','direccion_codigo_postal','direccion_departamento'], 'string', 'max' => 100],        		
             [['dni','fecha_inscripcion','fecha_nacimiento','fecha_vencimiento_apto_medico'], 'string', 'max' => 20],
-            [['email'], 'unique'],
+            [['email','facebook_id'], 'unique'],
         	[['email'], 'email'],
-            [['facebook_id'], 'unique'],
+        	[['facebook_id','email'], 'default'],
         ];
     }
     public function beforeSave($insert) {

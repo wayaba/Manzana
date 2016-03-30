@@ -47,7 +47,7 @@ use common\models\PlanSearch;
 	    </div>
 		<div class="col-md-2">
 	    <?php
-		$localidad = [0 =>'Castelar', 1=>'Morón']
+		$localidad = [0 =>'Castelar', 3=>'Hurlingham', 2=>'Ituzaingó' , 1=>'Morón']
 		?>
 	    <?= $form->field($model, 'direccion_localidad')->dropDownList($localidad) ?>
 	    </div>

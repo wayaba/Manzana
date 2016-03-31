@@ -121,7 +121,7 @@ class Socio extends \yii\db\ActiveRecord
         	'telefeno' => 'Tel. emergencias',
             'estado' => 'Estado',
         	'codigo' => 'Nro. Socio',
-            'facebook_id' => 'Facebook ID',
+            'facebook_id' => 'Facebook',
         	'fecha_vencimiento_apto_medico'=> 'Venc. Apto Médico',
         	'direccion_calle' => 'Calle',
         	'direccion_numero' => 'Número',

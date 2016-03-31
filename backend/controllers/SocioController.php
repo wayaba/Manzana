@@ -13,6 +13,7 @@ use yii\web\JsonResponseFormatter;
 use common\models\Pago;
 use common\models\Configuracion;
 use yii\bootstrap\ActiveForm;
+use common\models\Vencimiento;
 
 /**
  * SocioController implements the CRUD actions for Socio model.
@@ -142,11 +143,51 @@ class SocioController extends Controller
     {
     	if(Yii::$app->request->isAjax)
     	{
+    		$pago = Yii::$app->request->post('Pago');
+    		$socio = $this->findModel($pago['socio_id']);
+    		
+    		$vencimiento = Vencimiento::find()->where(['socio_id' => $socio->id])
+    		 ->andWhere(['is' , 'pago_id' , null])->one();
+    		
+    		if(!isset($vencimiento))
+    		{
+    			if(Yii::$app->request->post('Vencimiento',false))
+    			{
+    				$vencimiento = new Vencimiento();
+    				$vencimiento->load(Yii::$app->request->post());
+    				$vencimiento->socio_id = $socio->id;
+    				$vencimiento->save();
+    				
+    			}
+    			else
+    			{
+    				$vencimiento = new Vencimiento();
+    				$vencimiento->socio_id = $socio->id;
+    				$vencimiento->fecha = $socio->fecha_inscripcion;
+    				$vencimiento->save();
+    				
+    			}
+   				$fecha_vencimiento_anterior = \DateTime::createFromFormat ( 'Y-m-d' , $vencimiento->fecha );
+    		}
+    		else
+    		{
+    			$fecha_vencimiento_anterior = \DateTime::createFromFormat ( 'd/m/Y' , $vencimiento->fecha );
+    		}
+    		
    			$pagoModel = new Pago();
    			$pagoModel->load(Yii::$app->request->post());
-   			$pagoModel->fecha_pago = date ( 'd-m-Y' );
+   			$pagoModel->fecha_pago = date ( 'd/m/Y' );
     			 
    			if ($pagoModel->save()) {
+   				$vencimiento->pago_id = $pagoModel->id;
+   				$vencimiento->save();
+   				
+   				$vencimiento = new Vencimiento();
+   				$vencimiento->socio_id = $socio->id;
+   				$fecha_vencimiento_anterior->add(new \DateInterval('P1M'));
+   				$vencimiento->fecha = $fecha_vencimiento_anterior->format('d/m/Y');
+   				$vencimiento->save();
+   					
    				return Json::encode($pagoModel->attributes);
    			}
    			var_dump($pagoModel);

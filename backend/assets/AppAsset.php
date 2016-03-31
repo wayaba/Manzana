@@ -17,7 +17,8 @@ class AppAsset extends AssetBundle
 {
 	public $sourcePath = '@bower/';
 
-	public $css = ['admin-lte/dist/css/AdminLTE.css',
+	public $css = [
+			'admin-lte/dist/css/AdminLTE.css',
 			'/css/site.css',
 			'admin-lte/dist/css/skins/_all-skins.min.css',
 			'admin-lte/plugins/iCheck/flat/blue.css',
@@ -25,7 +26,9 @@ class AppAsset extends AssetBundle
 			'admin-lte/plugins/datepicker/datepicker3.css',
 			'admin-lte/plugins/daterangepicker/daterangepicker-bs3.css',
 			'admin-lte/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css',
-			'admin-lte/plugins/iCheck/square/blue.css'
+			'admin-lte/plugins/iCheck/square/blue.css',
+			//'admin-lte/bootstrap/css/bootstrap.min.css',
+				
 	];
 	
 	public $js = ['admin-lte/plugins/jQueryUI/jquery-ui.min.js',
@@ -41,6 +44,7 @@ class AppAsset extends AssetBundle
 			'admin-lte/plugins/slimScroll/jquery.slimscroll.min.js',
 			'admin-lte/plugins/fastclick/fastclick.min.js',
 			'admin-lte/plugins/iCheck/icheck.min.js',
+			//'admin-lte/bootstrap/js/bootstrap.min.js',
 			'admin-lte/dist/js/app.js',
 			'admin-lte/dist/js/demo.js',
 			//'admin-lte/dist/js/pages/dashboard.js'			

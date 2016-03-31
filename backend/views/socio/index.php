@@ -40,25 +40,23 @@ $this->params['breadcrumbs'][] = $this->title;
             'apellido',
         	'telefono_emergencia',
         	['attribute'=>'Próximo vencimiento',
-        		'format' => ['text'],
+        		'format' => ['html'],
         		'value' => function ($model) {
-        		return $model->fecha_inscripcion;
-        		if(isset($model->date_end)){
-        			$timezone = Yii::$app->session["client_timezone"];
-        			$endDate = new \DateTime($model->date_end);
-        			if($timezone>0){
-        				$endDate->sub(new \DateInterval("PT{$timezone}H"));
+        		$fecha_proximo_vencimiento = \DateTime::createFromFormat ( 'd/m/Y' , $model->fecha_proximo_vencimiento );
+        		if($fecha_proximo_vencimiento)
+        		{
+        			$today = new \DateTime();
+        			if($fecha_proximo_vencimiento>$today)
+        			{
+        				return '<span class="label label-success">'.$model->fecha_proximo_vencimiento.'</span>';
         			}
-        			else{
-        				$timezone *=-1;
-        				$endDate->add(new \DateInterval("PT{$timezone}H"));
+        			else
+        			{
+        				return '<span class="label label-danger">'.$model->fecha_proximo_vencimiento.'</span>';
         			}
-        			 
-        		
-        			return Yii::$app->formatter->asDatetime($endDate->format('Y-m-d H:i:s'),"medium");
         		}
-        		else
-        			return "-";
+        		return $model->fecha_proximo_vencimiento;
+        		        		
         	}],
         	['attribute'=>'Último Pago',
         	'format' => ['text'],
@@ -69,13 +67,23 @@ $this->params['breadcrumbs'][] = $this->title;
             		
             		'buttons'=>
             		['view'=>function ($model, $key, $index) {
-            			return '<a href="javascript:openModal('.$key->id.')" title="View" aria-label="View" data-pjax="0"><span class="glyphicon glyphicon-eye-open"></span></a>';
+            			//return '<a href="javascript:openModal('.$key->id.')" title="Ver" data-toggle="tooltip" aria-label="View" data-placement="top" data-pjax="0"><span class="glyphicon glyphicon-eye-open"></span></a>';
+            			return '<a href="javascript:openModal('.$key->id.')" data-toggle="tooltip" aria-label="View" data-placement="top" data-pjax="0"><span class="glyphicon glyphicon-eye-open"></span></a>';
             		
             		},
             		'pay'=>function ($model, $key, $index) {
-            		return '<a href="javascript:openPayModal('.$key->id.')" title="View" aria-label="View" data-pjax="0"><span class="glyphicon glyphicon-usd"></span></a>';
+            		//return '<a href="javascript:openPayModal('.$key->id.')" title="Cargar pago" data-toggle="tooltip"  aria-label="View" data-placement="top" data-pjax="0"><span class="glyphicon glyphicon-usd"></span></a>';
+            		return '<a href="javascript:openPayModal('.$key->id.')"  data-toggle="tooltip"  aria-label="View" data-placement="top" data-pjax="0"><span class="glyphicon glyphicon-usd"></span></a>';
+            		
+            		},
+            		'update'=>function ($model, $key, $index) {
+            		//return '<a href="/index.php?r=socio%2Fupdate&amp;id='.$key->id.'" title="Actualizar"  data-toggle="tooltip"  data-placement="top" aria-label="Actualizar" data-pjax="0"><span class="glyphicon glyphicon-pencil"></span></a>';
+            		return '<a href="/index.php?r=socio%2Fupdate&amp;id='.$key->id.'" data-toggle="tooltip"  data-placement="top" aria-label="Actualizar" data-pjax="0"><span class="glyphicon glyphicon-pencil"></span></a>';
             		
             		}
+            		
+            		
+            		
             		]
             ],
         ],

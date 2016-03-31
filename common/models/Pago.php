@@ -92,6 +92,14 @@ class Pago extends \yii\db\ActiveRecord
     }
 
     /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getVencimiento()
+    {
+    	return $this->hasOne(Vencimiento::className(), ['pago_id' => 'id']);
+    }
+    
+    /**
      * @inheritdoc
      * @return PagoQuery the active query used by this AR class.
      */

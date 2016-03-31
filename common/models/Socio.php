@@ -122,7 +122,7 @@ class Socio extends \yii\db\ActiveRecord
             'estado' => 'Estado',
         	'codigo' => 'Nro. Socio',
             'facebook_id' => 'Facebook ID',
-        	'fecha_vencimiento_apto_medico'=> 'Vencimiento',
+        	'fecha_vencimiento_apto_medico'=> 'Venc. Apto Médico',
         	'direccion_calle' => 'Calle',
         	'direccion_numero' => 'Número',
         	'direccion_localidad' => 'Localidad',
@@ -152,6 +152,15 @@ class Socio extends \yii\db\ActiveRecord
     }
     
     /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getVencimientos()
+    {
+    	return $this->hasMany(Vencimiento::className(), ['socio_id' => 'id']);
+    }
+    
+    
+    /**
      * @inheritdoc
      * @return SocioQuery the active query used by this AR class.
      */
@@ -178,4 +187,21 @@ class Socio extends \yii\db\ActiveRecord
     	}
     	 
     }
+    public function getFecha_proximo_vencimiento()
+    {
+    	$vencimiento = Vencimiento::find()->where(['socio_id' => $this->id])
+    	->andWhere(['is' , 'pago_id' , null])->one();
+    	 
+    	if(isset($vencimiento))
+    	{
+    		return $vencimiento->fecha;
+    	}
+    	else
+    	{
+    		return 'Pendiente';
+    	}
+    
+    }
+    
+    
 }

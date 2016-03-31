@@ -4,8 +4,8 @@ use yii\widgets\DetailView;
 use common\models\Pago;
 use yii\bootstrap\ActiveForm;
 use common\models\Configuracion;
-use yii\bootstrap\Html;
-
+use common\models\Vencimiento;
+use yii\web\View;
 ?>
 
 <div class="modal fade" id="view-modal">
@@ -39,6 +39,11 @@ use yii\bootstrap\Html;
 				        		'label' => 'Último Pago',
 				        		'value' => $model->fecha_ultimo_pago,
 				        	],
+				        	[
+				        		'attribute' => 'Fecha Vencimiento',
+				        		'label' => 'Fecha Vencimiento',
+				        		'value' => $model->fecha_proximo_vencimiento,
+				        	],
 				        ],
 				    ]) ?>
 				    </div>
@@ -69,6 +74,18 @@ use yii\bootstrap\Html;
 	
 				    <?= $form->field($pagoModel, 'socio_id')->hiddenInput()->label(false) ?>
 
+					<?php 
+					$vencimiento = Vencimiento::find()->where(['socio_id' => $model->id])->andWhere(['is' , 'pago_id' , null])->one();
+					if(!isset($vencimiento)){
+						$vencimiento = new Vencimiento();
+						$vencimiento->fecha = $model->fecha_inscripcion;
+					?>
+					<div class="row">
+						<div class="col-md-12">
+	    				<?= $form->field($vencimiento, 'fecha')->textInput(['class'=>'form-control datepicker']) ?>
+	    				</div>
+					</div>
+					<?php }?>
 					<div class="row">
 						<div class="col-md-6">
 					    <?= $form->field($pagoModel, 'valor_cuota')->textInput(['maxlength' => true,'readonly'=>'true']) ?>
@@ -97,3 +114,7 @@ use yii\bootstrap\Html;
 	          </div>
 	          <!-- /.modal-dialog -->
 	</div>
+<script type="text/javascript">
+	$('.datepicker').datepicker({language: 'es', format: 'dd/mm/yyyy',autoclose:true});		
+</script>
+	

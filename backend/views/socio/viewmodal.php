@@ -24,6 +24,11 @@ use yii\helpers\Html;
 					            'nombre',
 					            'apellido',
 					            'fecha_inscripcion',
+					        		[
+					        		'attribute' => 'Próximo Vencimiento',
+					        		'label' => 'Próximo Vencimiento',
+					        		'value' => $model->fecha_proximo_vencimiento,
+					        		],
 					        	'fecha_nacimiento',
 					        	'telefono',
 					        	'telefono_emergencia',

@@ -47,6 +47,7 @@ class SocioSearch extends Socio
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+        	'sort'=> ['defaultOrder' => ['codigo'=>SORT_ASC]]
         ]);
 
         $this->load($params);

@@ -18,7 +18,7 @@ class PagoSearch extends Pago
     public function rules()
     {
         return [
-            [['id', 'alumno_id', 'fecha_pago', 'monto', 'valor_cuota', 'created_at', 'updated_at'], 'integer'],
+            [['id', 'socio_id', 'fecha_pago', 'monto', 'valor_cuota', 'created_at', 'updated_at'], 'integer'],
         ];
     }
 
@@ -59,7 +59,7 @@ class PagoSearch extends Pago
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'alumno_id' => $this->alumno_id,
+            'socio_id' => $this->socio_id,
             'fecha_pago' => $this->fecha_pago,
             'monto' => $this->monto,
             'valor_cuota' => $this->valor_cuota,

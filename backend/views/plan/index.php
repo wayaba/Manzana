@@ -7,32 +7,39 @@ use yii\widgets\Pjax;
 /* @var $searchModel common\models\PlanSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Plans';
+$this->title = 'Planes';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="plan-index">
+<div class="box">
+<div class="box-header">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h3 class="box-title"><?= Html::encode($this->title) ?></h3>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
+	<div class="box-tools">
     <p>
-        <?= Html::a('Create Plan', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Nuevo Plan', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-<?php Pjax::begin(); ?>    <?= GridView::widget([
+	</div>
+</div>
+<?php Pjax::begin(['id'=>'pjax-plans']); ?>
+
+<div class="box-body table-responsive no-padding" >    
+<?= GridView::widget([
+		'summary' => false,
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
-            'configuracion_id',
+        'columns' => 
+            ['nombre',
             'valor_cuota',
-            'nombre',
-            'descripcion:ntext',
-            // 'created_at',
-            // 'updated_at',
-
-            ['class' => 'yii\grid\ActionColumn'],
+            ['attribute'=>'Cantidad de Socios',
+            		'format' => ['html'],
+            		'value' => function ($model) {
+            				return '<span class="label label-success">'.$model->getSocios()->count().' ( $ '.number_format($model->getSocios()->count()*$model->valor_cuota,2).' )</span>';
+            		
+            }],            		
+            		
+            ['class' => 'yii\grid\ActionColumn', 'template' => '{update}'],
         ],
     ]); ?>
-<?php Pjax::end(); ?></div>
+<?php Pjax::end(); ?>
+</div>

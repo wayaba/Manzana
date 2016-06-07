@@ -8,6 +8,9 @@ use common\models\PagoSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use common\models\Vencimiento;
+use yii\db\Query;
+use yii\db\Expression;
 
 /**
  * PagoController implements the CRUD actions for Pago model.
@@ -38,9 +41,34 @@ class PagoController extends Controller
         $searchModel = new PagoSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
+        
+        
+        $query = new Query();
+        $vencimientosUptodate = $query->select('1')
+        ->from('vencimiento')
+        ->andWhere(['is', 'pago_id' , null])
+        ->andWhere(['>=', 'fecha', new Expression('NOW()') ])
+        ->count();
+
+        $query = new Query();
+        $vencimientosDue = $query->select('1')
+        ->from('vencimiento')
+        ->andWhere(['is', 'pago_id' , null])
+        ->andWhere(['<', 'fecha', new Expression('NOW()') ])
+        ->count();
+
+        $query = new Query();
+        $newSocios = $query->select('*')
+        ->from('socio')
+        ->andWhere(['>', 'FROM_UNIXTIME(created_at)', new Expression('NOW() - INTERVAL 30 DAY') ])
+        ->count();
+        
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+        	'vencimientosUptodate'=>$vencimientosUptodate,
+        	'vencimientosDue'=>$vencimientosDue,
+        	'newSocios'=>$newSocios
         ]);
     }
 

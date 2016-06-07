@@ -14,6 +14,9 @@ use common\models\Pago;
 use common\models\Configuracion;
 use yii\bootstrap\ActiveForm;
 use common\models\Vencimiento;
+use yii\db\Query;
+use yii\db\Expression;
+use common\models\PagoSearch;
 
 /**
  * SocioController implements the CRUD actions for Socio model.
@@ -49,7 +52,44 @@ class SocioController extends Controller
             'dataProvider' => $dataProvider,
         ]);
     }
-
+    /**
+     * Lists all Pago models.
+     * @return mixed
+     */
+    public function actionStats()
+    {
+    	$searchModel = new SocioSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+    
+    	$query = new Query();
+    	$vencimientosUptodate = $query->select('1')
+    	->from('vencimiento')
+    	->andWhere(['is', 'pago_id' , null])
+    	->andWhere(['>=', 'fecha', new Expression('NOW()') ])
+    	->count();
+    
+    	$query = new Query();
+    	$vencimientosDue = $query->select('1')
+    	->from('vencimiento')
+    	->andWhere(['is', 'pago_id' , null])
+    	->andWhere(['<', 'fecha', new Expression('NOW()') ])
+    	->count();
+    
+    	$query = new Query();
+    	$newSocios = $query->select('*')
+    	->from('socio')
+    	->andWhere(['>', 'FROM_UNIXTIME(created_at)', new Expression('NOW() - INTERVAL 30 DAY') ])
+    	->count();
+    
+    	return $this->render('stats', [
+    			'searchModel' => $searchModel,
+    			'dataProvider' => $dataProvider,
+    			'vencimientosUptodate'=>$vencimientosUptodate,
+    			'vencimientosDue'=>$vencimientosDue,
+    			'newSocios'=>$newSocios
+    	]);
+    }
+    
     /**
      * Displays a single Socio model.
      * @param integer $id
@@ -129,6 +169,16 @@ class SocioController extends Controller
     	}
     	 
     }
+    public function actionShowDueDateModal()
+    {
+    	if(Yii::$app->request->isAjax)
+    	{
+    		$model = $this->findModel(Yii::$app->request->post('id'));
+    		return $this->renderPartial('duedatemodal',['model'=>$model]);
+    	}
+    
+    }
+    
     
     public function actionShowPayModal()
     {
@@ -190,10 +240,33 @@ class SocioController extends Controller
    					
    				return Json::encode($pagoModel->attributes);
    			}
-   			var_dump($pagoModel);
     	}
     
     }
+    public function actionChangeDueDate()
+    {
+    	if(Yii::$app->request->isAjax)
+    	{
+    		$vencimiento = new Vencimiento();
+    		$vencimiento->load(Yii::$app->request->post());
+    		$socio = $this->findModel($vencimiento['socio_id']);
+    		    
+    		$vencimiento = Vencimiento::find()->where(['socio_id' => $socio->id])
+    		->andWhere(['is' , 'pago_id' , null])->one();
+    
+    		if(isset($vencimiento))
+    		{
+    			if(Yii::$app->request->post('Vencimiento',false))
+    			{
+    				$vencimiento->load(Yii::$app->request->post());
+    				$vencimiento->save();
+    
+    			}
+    		}
+    	}
+    
+    }
+    
 
     /**
      * Deletes an existing Socio model.

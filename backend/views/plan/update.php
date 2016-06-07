@@ -3,19 +3,22 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\Plan */
+/* @var $model common\models\Socio */
 
-$this->title = 'Update Plan: ' . $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Plans', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->title = 'Actualizar Plan: ' . $model->nombre;
+$this->params['breadcrumbs'][] = ['label' => 'Planes', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => $model->nombre];
+$this->params['breadcrumbs'][] = 'Actualizar';
 ?>
-<div class="plan-update">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <?= $this->render('_form', [
-        'model' => $model,
-    ]) ?>
-
+<div class="row">
+	<div class="col-md-12">
+		<div class="box box-success">
+			<div class="box-header with-border">
+	        	<h3 class="box-title"><?= Html::encode($this->title) ?></h3>
+			</div>
+			    <?= $this->render('_form', [
+			        'model' => $model,
+			    ]) ?>
+		</div>
+	</div>
 </div>

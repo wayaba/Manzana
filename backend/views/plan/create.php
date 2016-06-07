@@ -6,16 +6,21 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model common\models\Plan */
 
-$this->title = 'Create Plan';
+$this->title = 'Crear Plan';
 $this->params['breadcrumbs'][] = ['label' => 'Plans', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="plan-create">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <?= $this->render('_form', [
-        'model' => $model,
-    ]) ?>
-
+<div class="row">
+	<div class="col-md-12">
+		<div class="box box-success">
+			<div class="box-header with-border">
+	        	<h3 class="box-title"><?= Html::encode($this->title) ?></h3>
+			</div>
+			    <?= $this->render('_form', [
+			        'model' => $model,
+			    ]) ?>
+		</div>
+	</div>
 </div>
+

@@ -39,7 +39,12 @@ $this->params['breadcrumbs'][] = $this->title;
         	'nombre',
             'apellido',
         	'telefono_emergencia',
-        	['attribute'=>'Próximo vencimiento',
+        	['attribute'=>'Plan',
+        	'format' => ['text'],
+        	'value' => function ($model) {
+        		return $model->plan->nombre;
+        	}],
+        		['attribute'=>'Próximo vencimiento',
         		'format' => ['raw'],
         		'value' => function ($model) {
         		$fecha_proximo_vencimiento = \DateTime::createFromFormat ( 'd/m/Y' , $model->fecha_proximo_vencimiento );
@@ -48,11 +53,11 @@ $this->params['breadcrumbs'][] = $this->title;
         			$today = new \DateTime();
         			if($fecha_proximo_vencimiento>$today)
         			{
-        				return '<span class="label label-success">'.$model->fecha_proximo_vencimiento.'</span>  <a href="javascript:openChangeDueDateModal('.$model->id.')" data-toggle="tooltip" aria-label="View" data-placement="top" data-pjax="0"><span class="glyphicon glyphicon-pencil"></span></a>';
+        				return '<span class="label label-success">'.$model->fecha_proximo_vencimiento.'</span>&nbsp;&nbsp;  <a href="javascript:openChangeDueDateModal('.$model->id.')" data-toggle="tooltip" aria-label="View" data-placement="top" data-pjax="0"><span class="glyphicon glyphicon-pencil"></span></a>';
         			}
         			else
         			{
-        				return '<span class="label label-danger">'.$model->fecha_proximo_vencimiento.'</span>  <a href="javascript:openChangeDueDateModal('.$model->id.')" data-toggle="tooltip" aria-label="View" data-placement="top" data-pjax="0"><span class="glyphicon glyphicon-pencil"></span></a>';
+        				return '<span class="label label-danger">'.$model->fecha_proximo_vencimiento.'</span>&nbsp;&nbsp;  <a href="javascript:openChangeDueDateModal('.$model->id.')" data-toggle="tooltip" aria-label="View" data-placement="top" data-pjax="0"><span class="glyphicon glyphicon-pencil"></span></a>';
         			}
         		}
         		return $model->fecha_proximo_vencimiento;

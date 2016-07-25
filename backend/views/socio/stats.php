@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="icon">
                   <i class="ion ion-happy"></i>
                 </div>
-                <a href="#" class="small-box-footer">Mas información <i class="fa fa-arrow-circle-right"></i></a>
+                <a href="<?=Url::to( ['socio/stats','uptodate'=>1] ) ?>" class="small-box-footer">Ver todos <i class="fa fa-arrow-circle-right"></i></a>
               </div>
             </div><!-- ./col -->
             <div class="col-lg-3 col-xs-6">
@@ -45,7 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="icon">
                   <i class="ion ion-sad"></i>
                 </div>
-                <a href="#" class="small-box-footer">Mas información <i class="fa fa-arrow-circle-right"></i></a>
+                <a href="<?=Url::to( ['socio/stats','due'=>1] ) ?>" class="small-box-footer">Ver todos <i class="fa fa-arrow-circle-right"></i></a>
               </div>
             </div><!-- ./col -->            
             <div class="col-lg-3 col-xs-6">
@@ -58,7 +58,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="icon">
                   <i class="ion ion-person-add"></i>
                 </div>
-                <a href="#" class="small-box-footer">Mas información <i class="fa fa-arrow-circle-right"></i></a>
+                <a href="<?=Url::to( ['socio/stats','new'=>1] ) ?>" class="small-box-footer">Ver todos <i class="fa fa-arrow-circle-right"></i></a>
               </div>
             </div><!-- ./col -->
 
@@ -77,12 +77,10 @@ $this->params['breadcrumbs'][] = $this->title;
         	'nombre',
             'apellido',
         	'telefono_emergencia',
-        		['attribute'=>'Plan',
-        		'format' => ['text'],
-        		'value' => function ($model) {
-        		return $model->plan->nombre;
-        		}],
-        		
+        		[
+        		'attribute' => 'plan',
+        		'value' => 'plan.nombre'
+        		],
         	['attribute'=>'Próximo vencimiento',
         		'format' => ['raw'],
         		'value' => function ($model) {

@@ -39,12 +39,11 @@ $this->params['breadcrumbs'][] = $this->title;
         	'nombre',
             'apellido',
         	'telefono_emergencia',
-        	['attribute'=>'Plan',
-        	'format' => ['text'],
-        	'value' => function ($model) {
-        		return $model->plan->nombre;
-        	}],
-        		['attribute'=>'Próximo vencimiento',
+        		[
+        		'attribute' => 'plan',
+        		'value' => 'plan.nombre'
+        		],
+        	['attribute'=>'Próximo vencimiento',
         		'format' => ['raw'],
         		'value' => function ($model) {
         		$fecha_proximo_vencimiento = \DateTime::createFromFormat ( 'd/m/Y' , $model->fecha_proximo_vencimiento );

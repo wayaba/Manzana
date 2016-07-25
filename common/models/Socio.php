@@ -132,6 +132,7 @@ class Socio extends \yii\db\ActiveRecord
         	'plan_id'=>'Plan',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
+        	'nextvencimiento'=>'Próximo vencimiento'
         ];
     }
 
@@ -157,6 +158,14 @@ class Socio extends \yii\db\ActiveRecord
     public function getVencimientos()
     {
     	return $this->hasMany(Vencimiento::className(), ['socio_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getNextvencimiento()
+    {
+    	return $this->hasOne(Vencimiento::className(), ['socio_id' => 'id'])->andOnCondition(['is', 'vencimiento.pago_id' , null]);
     }
     
     

@@ -14,6 +14,7 @@ use yii\db\Expression;
 class SocioSearch extends Socio
 {
 	public $plan;
+	public $nextvencimiento;
 	
     /**
      * @inheritdoc
@@ -22,7 +23,7 @@ class SocioSearch extends Socio
     {
         return [
             [['id','codigo', 'fecha_inscripcion', 'tiene_apto_medico', 'estado', 'created_at', 'updated_at'], 'integer'],
-            [['nombre', 'apellido', 'email', 'dni', 'facebook_id','telefono','telefono_emergencia','plan'], 'safe'],
+            [['nombre', 'apellido', 'email', 'dni', 'facebook_id','telefono','telefono_emergencia','plan','nextvencimiento'], 'safe'],
         		
         ];
     }
@@ -50,10 +51,10 @@ class SocioSearch extends Socio
         // add conditions that should always apply here
         $query->joinWith(['plan']);
         
-        if(isset($params['uptodate'])||isset($params['due']))
-        {
-        	$query->joinWith(['vencimientos']);
-        }
+        //if(isset($params['uptodate'])||isset($params['due']))
+        //{
+        $query->joinWith(['nextvencimiento']);
+        //}
         
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -63,7 +64,10 @@ class SocioSearch extends Socio
         		'asc' => ['plan.nombre' => SORT_ASC],
         		'desc' => ['plan.nombre' => SORT_DESC],
         ];
-        //$query->joinWith(['pago' => function($query) { $query->from(['author' => 'users']); }]);
+        $dataProvider->sort->attributes['nextvencimiento'] = [
+        		'asc' => ['vencimiento.fecha' => SORT_ASC],
+        		'desc' => ['vencimiento.fecha' => SORT_DESC],
+        ];
         
         $this->load($params);
 
@@ -94,20 +98,22 @@ class SocioSearch extends Socio
             ->andFilterWhere(['like', 'telefono_emergencia', $this->telefono_emergencia])
             ->andFilterWhere(['like', 'facebook_id', $this->facebook_id])
         	->andFilterWhere(['like', 'plan.nombre', $this->plan]);
-        
+        	 
         if(isset($params['new'])){
         	$query->andWhere(['>', 'FROM_UNIXTIME(socio.created_at)', new Expression('NOW() - INTERVAL 30 DAY') ]);
         }
         if(isset($params['uptodate'])){
-        	$query->andWhere(['is', 'vencimiento.pago_id' , null])
-        		->andWhere(['>=', 'vencimiento.fecha', new Expression('NOW()') ]);
+        	$query->andWhere(['>=', 'vencimiento.fecha', new Expression('NOW()') ]);
         }
         if(isset($params['due']))
         {
-        	$query->andWhere(['is', 'vencimiento.pago_id' , null])
-        	->andWhere(['<', 'vencimiento.fecha', new Expression('NOW()') ]);
+        	$query->andWhere(['<', 'vencimiento.fecha', new Expression('NOW()') ]);
         }
-        	 
+        if(isset($params['inactive']))
+        {
+        	$query->andWhere(['<', 'vencimiento.fecha', new Expression('NOW() - INTERVAL 60 DAY') ]);
+        }
+        
 
         return $dataProvider;
     }

@@ -80,13 +80,21 @@ class SocioController extends Controller
     	->from('socio')
     	->andWhere(['>', 'FROM_UNIXTIME(created_at)', new Expression('NOW() - INTERVAL 30 DAY') ])
     	->count();
-    
+    	$query = new Query();
+    	
+    	$inactiveSocios = $query->select('*')
+    	->from('socio')
+    	->andWhere(['>', 'FROM_UNIXTIME(created_at)', new Expression('NOW() - INTERVAL 60 DAY') ])
+    	->count();
+    	
     	return $this->render('stats', [
     			'searchModel' => $searchModel,
     			'dataProvider' => $dataProvider,
+    			'totalSocios'=>count(Socio::find()->all()),
     			'vencimientosUptodate'=>$vencimientosUptodate,
     			'vencimientosDue'=>$vencimientosDue,
-    			'newSocios'=>$newSocios
+    			'newSocios'=>$newSocios,
+    			'inactiveSocios'=>$inactiveSocios
     	]);
     }
     

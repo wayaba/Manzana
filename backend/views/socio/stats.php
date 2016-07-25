@@ -22,6 +22,19 @@ $this->params['breadcrumbs'][] = $this->title;
 	</div>
 </div>
 <div class="row">
+			<div class="col-lg-3 col-xs-6">
+              <!-- small box -->
+              <div class="small-box bg-blue">
+                <div class="inner">
+                  <h3><?php echo $totalSocios?></h3>
+                  <p>Socios totales</p>
+                </div>
+                <div class="icon">
+                  <i class="ion ion-happy"></i>
+                </div>
+                <a href="<?=Url::to( ['socio/stats'] ) ?>" class="small-box-footer">Ver todos <i class="fa fa-arrow-circle-right"></i></a>
+              </div>
+            </div><!-- ./col -->
             <div class="col-lg-3 col-xs-6">
               <!-- small box -->
               <div class="small-box bg-green">
@@ -35,7 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <a href="<?=Url::to( ['socio/stats','uptodate'=>1] ) ?>" class="small-box-footer">Ver todos <i class="fa fa-arrow-circle-right"></i></a>
               </div>
             </div><!-- ./col -->
-            <div class="col-lg-3 col-xs-6">
+            <div class="col-lg-2 col-xs-6">
               <!-- small box -->
               <div class="small-box bg-red">
                 <div class="inner">
@@ -48,7 +61,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <a href="<?=Url::to( ['socio/stats','due'=>1] ) ?>" class="small-box-footer">Ver todos <i class="fa fa-arrow-circle-right"></i></a>
               </div>
             </div><!-- ./col -->            
-            <div class="col-lg-3 col-xs-6">
+            <div class="col-lg-2 col-xs-6">
               <!-- small box -->
               <div class="small-box bg-yellow">
                 <div class="inner">
@@ -61,6 +74,19 @@ $this->params['breadcrumbs'][] = $this->title;
                 <a href="<?=Url::to( ['socio/stats','new'=>1] ) ?>" class="small-box-footer">Ver todos <i class="fa fa-arrow-circle-right"></i></a>
               </div>
             </div><!-- ./col -->
+			<div class="col-lg-2 col-xs-6">
+              <!-- small box -->
+              <div class="small-box bg-gray">
+                <div class="inner">
+                  <h3><?php echo $inactiveSocios?></h3>
+                  <p>Nuevos inactivos</p>
+                </div>
+                <div class="icon">
+                  <i class="ion ion-person"></i>
+                </div>
+                <a href="<?=Url::to( ['socio/stats','inactive'=>1] ) ?>" class="small-box-footer">Ver todos <i class="fa fa-arrow-circle-right"></i></a>
+              </div>
+            </div><!-- ./col -->            
 
 </div>
 <?php Pjax::begin(['id'=>'pjax-socios']); ?>
@@ -81,7 +107,8 @@ $this->params['breadcrumbs'][] = $this->title;
         		'attribute' => 'plan',
         		'value' => 'plan.nombre'
         		],
-        	['attribute'=>'Próximo vencimiento',
+        		[
+        		'attribute' => 'nextvencimiento',
         		'format' => ['raw'],
         		'value' => function ($model) {
         		$fecha_proximo_vencimiento = \DateTime::createFromFormat ( 'd/m/Y' , $model->fecha_proximo_vencimiento );
@@ -99,7 +126,8 @@ $this->params['breadcrumbs'][] = $this->title;
         		}
         		return $model->fecha_proximo_vencimiento;
         		        		
-        	}],
+        		}
+				],        		
         	['attribute'=>'Último Pago',
         	'format' => ['text'],
         	'value' => function ($model) {

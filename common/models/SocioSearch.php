@@ -89,14 +89,14 @@ class SocioSearch extends Socio
             'updated_at' => $this->updated_at,
         ]);
 
-        $query->andFilterWhere(['like', 'nombre', $this->nombre])
-            ->andFilterWhere(['like', 'apellido', $this->apellido])
-            ->andFilterWhere(['like', 'codigo', $this->codigo])
-            ->andFilterWhere(['like', 'email', $this->email])
-            ->andFilterWhere(['like', 'dni', $this->dni])
-            ->andFilterWhere(['like', 'telefono', $this->telefono])
-            ->andFilterWhere(['like', 'telefono_emergencia', $this->telefono_emergencia])
-            ->andFilterWhere(['like', 'facebook_id', $this->facebook_id])
+        $query->andFilterWhere(['like', 'socio.nombre', $this->nombre])
+            ->andFilterWhere(['like', 'socio.apellido', $this->apellido])
+            ->andFilterWhere(['like', 'socio.codigo', $this->codigo])
+            ->andFilterWhere(['like', 'socio.email', $this->email])
+            ->andFilterWhere(['like', 'socio.dni', $this->dni])
+            ->andFilterWhere(['like', 'socio.telefono', $this->telefono])
+            ->andFilterWhere(['like', 'socio.telefono_emergencia', $this->telefono_emergencia])
+            ->andFilterWhere(['like', 'socio.facebook_id', $this->facebook_id])
         	->andFilterWhere(['like', 'plan.nombre', $this->plan]);
         	 
         if(isset($params['new'])){

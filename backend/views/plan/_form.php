@@ -11,6 +11,9 @@ use yii\widgets\ActiveForm;
     <?php $form = ActiveForm::begin(); ?>
 <div class="box-body">
 
+    <?=
+	$form->field($model, 'configuracion_id')->hiddenInput()->label(false);
+	?>
 
 	<div class="row">
 

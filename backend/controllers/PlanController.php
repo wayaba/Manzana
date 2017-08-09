@@ -68,6 +68,7 @@ class PlanController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index']);
         } else {
+        	$model->configuracion_id = 1;
             return $this->render('create', [
                 'model' => $model,
             ]);

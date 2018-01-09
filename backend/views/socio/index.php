@@ -57,6 +57,10 @@ $this->params['breadcrumbs'][] = $this->title;
         			}
         			else
         			{
+        				if($fecha_proximo_vencimiento==$today)
+        				{
+        					return '<span class="label label-warning">'.$model->fecha_proximo_vencimiento.'</span>  <a href="javascript:openChangeDueDateModal('.$model->id.')" data-toggle="tooltip" aria-label="View" data-placement="top" data-pjax="0"><span class="glyphicon glyphicon-pencil"></span></a>';
+        				}
         				return '<span class="label label-danger">'.$model->fecha_proximo_vencimiento.'</span>  <a href="javascript:openChangeDueDateModal('.$model->id.')" data-toggle="tooltip" aria-label="View" data-placement="top" data-pjax="0"><span class="glyphicon glyphicon-pencil"></span></a>';
         			}
         		}
